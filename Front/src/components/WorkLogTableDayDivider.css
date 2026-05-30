@@ -1,0 +1,18 @@
+.work-log-table-day td {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.work-log-table-day__label {
+  margin: var(--spacing-4) 0;
+  padding: var(--spacing-8) var(--spacing-16);
+  text-align: center;
+  font-size: var(--body-size-m);
+  font-weight: var(--weight-sb);
+  line-height: var(--body-line-m);
+  color: var(--brand-1-color-100);
+  background: var(--wrapper-bg);
+  border: 1px solid var(--wrapper-bg-accent-bg);
+  border-radius: var(--rounded-12);
+}

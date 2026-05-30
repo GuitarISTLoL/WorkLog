@@ -1,0 +1,77 @@
+.work-log-table {
+  width: 100%;
+  margin: var(--spacing-32) auto 0;
+  border-collapse: separate;
+  border-spacing: 0 var(--spacing-8);
+}
+
+.work-log-table thead tr th {
+  position: relative;
+  padding: var(--spacing-8) 0;
+  text-align: center;
+  background-color: var(--table-item);
+  color: var(--text-primary);
+  font-size: var(--body-size-m);
+  font-weight: var(--weight-sb);
+  line-height: var(--body-line-m);
+}
+
+.work-log-table thead tr th:nth-child(1) {
+  width: 140px;
+  border-top-left-radius: var(--rounded-12);
+  border-bottom-left-radius: var(--rounded-12);
+}
+
+.work-log-table thead tr th:nth-child(2) {
+  width: 240px;
+}
+
+.work-log-table thead tr th:nth-child(3) {
+  width: 100px;
+}
+
+.work-log-table thead tr th:nth-child(4) {
+  width: 80px;
+}
+
+.work-log-table thead tr th:nth-child(5) {
+  width: 150px;
+}
+
+.work-log-table thead tr th:nth-child(6) {
+  width: 88px;
+  border-top-right-radius: var(--rounded-12);
+  border-bottom-right-radius: var(--rounded-12);
+}
+
+.work-log-table__actions-head {
+  padding: 0;
+}
+
+.work-log-table__sort-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--spacing-4);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
+.work-log-table__sort-btn:hover {
+  color: var(--brand-1-color-100);
+}
+
+.work-log-table-empty {
+  margin-top: var(--spacing-32);
+  padding: var(--spacing-16) var(--spacing-8);
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: var(--text-primary);
+  background-color: var(--wrapper-bg);
+  border-radius: var(--rounded-12);
+}

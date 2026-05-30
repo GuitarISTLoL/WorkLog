@@ -1,0 +1,84 @@
+services:
+  postgres:
+    container_name: worklog-postgres
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTRGES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-worklog}
+    ports:
+      - '${POSTGRES_HOST_PORT:-5433}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - work-log
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    container_name: worklog-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '${API_PORT:-3000}:3000'
+    environment:
+      PORT: 3000
+      POSTRGES_HOST: postgres
+      POSTGRES_PORT: 5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - work-log
+
+  front:
+    container_name: worklog-front
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - '${FRONT_PORT:-3001}:3001'
+    environment:
+      VITE_API_PROXY_TARGET: http://api:3000
+    depends_on:
+      - api
+    networks:
+      - work-log
+
+  seed:
+    profiles:
+      - seed
+    container_name: worklog-seed
+    image: node:22-alpine
+    working_dir: /app
+    env_file:
+      - .env
+    environment:
+      API_URL: http://api:3000
+    volumes:
+      - ./scripts/seed-db.mjs:/app/seed-db.mjs:ro
+    command: ['node', 'seed-db.mjs']
+    depends_on:
+      - api
+    networks:
+      - work-log
+    restart: 'no'
+
+volumes:
+  postgres_data:
+
+networks:
+  work-log:

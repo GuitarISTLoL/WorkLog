@@ -1,0 +1,44 @@
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--rounded-8);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.icon-button:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: var(--wrapper-bg-accent-bg);
+}
+
+.icon-button--danger:hover:not(:disabled) {
+  color: var(--color-error);
+  background: rgb(255 69 58 / 12%);
+}
+
+.icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.icon-sort {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: var(--spacing-4);
+  vertical-align: middle;
+  color: var(--text-secondary);
+}
+
+.icon-sort__active {
+  color: var(--brand-1-color-100);
+}

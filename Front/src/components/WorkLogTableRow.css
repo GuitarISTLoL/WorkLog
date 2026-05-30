@@ -1,0 +1,51 @@
+.work-log-table-row {
+  height: 70px;
+  background-color: var(--table-item);
+  border-radius: var(--rounded-12);
+}
+
+.work-log-table-row td {
+  height: 62px;
+  padding: 0 var(--spacing-8);
+  text-align: center;
+  word-wrap: break-word;
+  color: var(--text-primary);
+  font-size: var(--body-size-m);
+  line-height: var(--body-line-m);
+  vertical-align: middle;
+}
+
+.work-log-table-row td:nth-child(1) {
+  max-width: 140px;
+  border-top-left-radius: var(--rounded-12);
+  border-bottom-left-radius: var(--rounded-12);
+}
+
+.work-log-table-row td:nth-child(2) {
+  max-width: 240px;
+}
+
+.work-log-table-row td:nth-child(3) {
+  max-width: 100px;
+}
+
+.work-log-table-row td:nth-child(4) {
+  max-width: 80px;
+}
+
+.work-log-table-row td:nth-child(5) {
+  max-width: 150px;
+}
+
+.work-log-table-row td:nth-child(6) {
+  max-width: 88px;
+  border-top-right-radius: var(--rounded-12);
+  border-bottom-right-radius: var(--rounded-12);
+}
+
+.work-log-table-row__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+}

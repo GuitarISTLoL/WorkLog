@@ -1,0 +1,29 @@
+@import './styles/theme.css';
+
+:root {
+  font-family: var(--font-sans);
+  line-height: var(--body-line-m);
+  font-weight: 400;
+  color: var(--text-primary);
+  background-color: var(--app-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--app-bg);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
