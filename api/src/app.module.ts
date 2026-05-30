@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { type MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +7,7 @@ import { getEnvFilePaths } from './config/env.config';
 import { getTypeOrmConfig } from './config/typeorm.config';
 import { LogModule } from './log/log.module';
 import { WorkTypeModule } from './work-type/work-type.module';
+import { LoggerModule } from './common/logger/logger.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { WorkTypeModule } from './work-type/work-type.module';
       useFactory: getTypeOrmConfig,
       inject: [ConfigService],
     }),
+    LoggerModule,
     LogModule,
     WorkTypeModule,
   ],

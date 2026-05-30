@@ -10,13 +10,13 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DATABASE:-worklog}
     ports:
-      - '${POSTGRES_HOST_PORT:-5433}:5432'
+      - "${POSTGRES_HOST_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - work-log
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -30,7 +30,7 @@ services:
     env_file:
       - .env
     ports:
-      - '${API_PORT:-3000}:3000'
+      - "${API_PORT:-3000}:3000"
     environment:
       PORT: 3000
       POSTRGES_HOST: postgres
@@ -40,6 +40,8 @@ services:
         condition: service_healthy
     networks:
       - work-log
+    volumes:
+      - ./logs:/app/logs
 
   front:
     container_name: worklog-front
@@ -50,7 +52,7 @@ services:
     env_file:
       - .env
     ports:
-      - '${FRONT_PORT:-3001}:3001'
+      - "${FRONT_PORT:-3001}:3001"
     environment:
       VITE_API_PROXY_TARGET: http://api:3000
     depends_on:
@@ -70,12 +72,12 @@ services:
       API_URL: http://api:3000
     volumes:
       - ./scripts/seed-db.mjs:/app/seed-db.mjs:ro
-    command: ['node', 'seed-db.mjs']
+    command: ["node", "seed-db.mjs"]
     depends_on:
       - api
     networks:
       - work-log
-    restart: 'no'
+    restart: "no"
 
 volumes:
   postgres_data:

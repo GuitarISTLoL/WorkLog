@@ -16,10 +16,14 @@
 
 .app__toolbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-wrap: nowrap;
+  align-items: flex-start;
   justify-content: flex-end;
   gap: var(--spacing-12);
+}
+
+.app__toolbar > .ui-button {
+  flex-shrink: 0;
 }
 
 .app__title {
