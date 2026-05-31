@@ -1,5 +1,11 @@
 import { ensureOk } from '../utils/apiError'
-import type { CreateLogPayload, GetLogsParams, LogEntry, LogsResponse } from '../types/log'
+import type {
+  CreateLogPayload,
+  GetLogsParams,
+  LogEntry,
+  LogsResponse,
+  UpdateLogPayload,
+} from '../types/log'
 
 export async function createLog(payload: CreateLogPayload): Promise<LogEntry> {
   const response = await fetch('/log', {
@@ -31,7 +37,7 @@ export async function fetchLogs(params: GetLogsParams): Promise<LogsResponse> {
 
 export async function updateLog(
   id: string,
-  payload: CreateLogPayload,
+  payload: UpdateLogPayload,
 ): Promise<LogEntry> {
   const response = await fetch(`/log/${id}`, {
     method: 'PUT',

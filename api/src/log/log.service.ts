@@ -20,6 +20,9 @@ export class LogService {
       type: {
         id: LogDto.type,
       } as WorkTypeEntity,
+      complitedAt: LogDto.complitedAt
+        ? new Date(LogDto.complitedAt)
+        : new Date(),
     });
     return await this.LogRepository.save(log);
   }
@@ -32,7 +35,7 @@ export class LogService {
     const where: any = {};
 
     if (dateFrom && dateTo) {
-      where.createdAt = Between(
+      where.complitedAt = Between(
         new Date(`${dateFrom}T00:00:00.000Z`),
         new Date(`${dateTo}T23:59:59.999Z`),
       );
@@ -41,7 +44,7 @@ export class LogService {
     return this.LogRepository.findAndCount({
       where,
       order: {
-        createdAt: order,
+        complitedAt: order,
       },
       skip,
       take: count,
@@ -62,7 +65,14 @@ export class LogService {
   async update(id: string, LogDto: LogDto) {
     const log = await this.findOne(id);
 
-    Object.assign(log, LogDto);
+    log.user = LogDto.user;
+    log.count = LogDto.count;
+    log.type = { id: LogDto.type } as WorkTypeEntity;
+
+    if (LogDto.complitedAt !== undefined) {
+      log.complitedAt = new Date(LogDto.complitedAt);
+    }
+
     return await this.LogRepository.save(log);
   }
 

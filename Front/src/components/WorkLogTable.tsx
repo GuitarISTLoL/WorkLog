@@ -7,7 +7,7 @@ import { IconSort } from './ui/icons'
 import './WorkLogTable.css'
 
 const DATA_HEADERS = [
-  { key: 'user', label: 'ФИО', sortable: false },
+  { key: 'user', label: 'ФИО сотрудника', sortable: false },
   { key: 'title', label: 'Наименование работы', sortable: false },
   { key: 'unit', label: 'Единица изм.', sortable: false },
   { key: 'count', label: 'Объём', sortable: false },

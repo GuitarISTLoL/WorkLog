@@ -7,6 +7,7 @@ import { Button } from './ui/Button'
 import { Modal } from './ui/Modal'
 import { WorkTypeSelect } from './WorkTypeSelect'
 import './ui/form.css'
+import { isoToDateInputValue } from '../utils/dateInput'
 import {
   TEXT_WITH_PUNCTUATION,
   TEXT_WITH_PUNCTUATION_MESSAGE,
@@ -31,6 +32,7 @@ export function LogFormModal({
   const [user, setUser] = useState('')
   const [workType, setWorkType] = useState<WorkType | null>(null)
   const [count, setCount] = useState('')
+  const [complitedAt, setComplitedAt] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
@@ -47,10 +49,12 @@ export function LogFormModal({
       setUser(log.user)
       setWorkType(log.type ?? null)
       setCount(String(log.count))
+      setComplitedAt(isoToDateInputValue(log.complitedAt))
     } else if (!isEdit) {
       setUser('')
       setWorkType(null)
       setCount('')
+      setComplitedAt('')
     }
     setFormError(null)
     setFieldErrors({})
@@ -60,6 +64,7 @@ export function LogFormModal({
     setUser('')
     setWorkType(null)
     setCount('')
+    setComplitedAt('')
     setFormError(null)
     setFieldErrors({})
   }
@@ -91,6 +96,10 @@ export function LogFormModal({
       next.count = 'Укажите положительный объём'
     }
 
+    if (isEdit && !complitedAt) {
+      next.complitedAt = 'Укажите дату'
+    }
+
     setFieldErrors(next)
     return Object.keys(next).length === 0
   }
@@ -116,7 +125,7 @@ export function LogFormModal({
       }
 
       if (isEdit && log) {
-        await updateLog(log.id, payload)
+        await updateLog(log.id, { ...payload, complitedAt })
       } else {
         await createLog(payload)
       }
@@ -157,7 +166,7 @@ export function LogFormModal({
 
         <div className="form-field">
           <label className="form-field__label" htmlFor="log-user">
-            ФИО
+            ФИО сотрудника
           </label>
           <input
             id="log-user"
@@ -227,6 +236,29 @@ export function LogFormModal({
             <p className="form-field__error">{fieldErrors.count}</p>
           )}
         </div>
+
+        {isEdit && (
+          <div className="form-field">
+            <label className="form-field__label" htmlFor="log-complited-at">
+              Дата окончания работ
+            </label>
+            <input
+              id="log-complited-at"
+              className="form-field__input"
+              type="date"
+              value={complitedAt}
+              disabled={submitting}
+              aria-invalid={Boolean(fieldErrors.complitedAt)}
+              onChange={(event) => {
+                setComplitedAt(event.target.value)
+                setFieldErrors((prev) => ({ ...prev, complitedAt: undefined }))
+              }}
+            />
+            {fieldErrors.complitedAt && (
+              <p className="form-field__error">{fieldErrors.complitedAt}</p>
+            )}
+          </div>
+        )}
 
         <div className="form-actions">
           <Button

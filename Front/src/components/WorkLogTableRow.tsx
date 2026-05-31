@@ -44,7 +44,7 @@ export function WorkLogTableRow({ row, onEdit, onMutated }: WorkLogTableRowProps
       <td>{row.type?.title ?? '—'}</td>
       <td>{row.type?.unit ?? '—'}</td>
       <td>{row.count}</td>
-      <td>{formatDate(row.createdAt)}</td>
+      <td>{formatDate(row.complitedAt)}</td>
       <td>
         <div className="work-log-table-row__actions">
           <IconButton

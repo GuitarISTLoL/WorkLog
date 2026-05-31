@@ -1,10 +1,15 @@
 import './Pagination.css'
 
+export const PAGE_SIZE_OPTIONS = [10, 20, 30] as const
+
+export type PageSize = (typeof PAGE_SIZE_OPTIONS)[number]
+
 interface PaginationProps {
   page: number
-  pageSize: number
+  pageSize: PageSize
   total: number
   onPageChange: (page: number) => void
+  onPageSizeChange: (pageSize: PageSize) => void
 }
 
 function ChevronLeft() {
@@ -75,6 +80,7 @@ export function Pagination({
   pageSize,
   total,
   onPageChange,
+  onPageSizeChange,
 }: PaginationProps) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
@@ -85,7 +91,26 @@ export function Pagination({
   const pageItems = buildPageItems(page, totalPages)
 
   return (
-    <nav className="pagination" aria-label="Пагинация">
+    <div className="pagination-bar">
+      <label className="pagination-bar__size">
+        <span className="pagination-bar__size-label">На странице</span>
+        <select
+          className="pagination-bar__size-select"
+          value={pageSize}
+          aria-label="Количество записей на странице"
+          onChange={(event) =>
+            onPageSizeChange(Number(event.target.value) as PageSize)
+          }
+        >
+          {PAGE_SIZE_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <nav className="pagination" aria-label="Пагинация">
       <button
         type="button"
         className="pagination__control"
@@ -121,6 +146,7 @@ export function Pagination({
       >
         <ChevronRight />
       </button>
-    </nav>
+      </nav>
+    </div>
   )
 }

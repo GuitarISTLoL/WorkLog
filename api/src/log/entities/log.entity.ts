@@ -30,4 +30,7 @@ export class LogEntity {
 
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   updatedAt: Date;
+
+  @Column({ type: 'timestamp with time zone' })
+  complitedAt: Date;
 }

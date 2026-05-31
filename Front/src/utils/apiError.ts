@@ -95,6 +95,11 @@ export async function parseApiError(
         continue
       }
 
+      if (lower.startsWith('complitedat')) {
+        assignFieldMessage(fieldErrors, 'complitedAt', 'Укажите корректную дату')
+        continue
+      }
+
       general.push(message)
     }
   }

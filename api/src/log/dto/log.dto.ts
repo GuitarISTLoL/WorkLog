@@ -1,7 +1,9 @@
 import { Type } from 'class-transformer';
 import {
+  IsDateString,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsPositive,
   IsString,
   IsUUID,
@@ -30,4 +32,8 @@ export class LogDto {
   @IsNumber()
   @IsPositive()
   count: number;
+
+  @IsOptional()
+  @IsDateString()
+  complitedAt: string;
 }

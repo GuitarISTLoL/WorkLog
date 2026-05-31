@@ -2,13 +2,13 @@ import { useCallback, useEffect, useState } from 'react'
 import { fetchLogs } from './api/logs'
 import { LogDateFilter, type DateFilterValue } from './components/LogDateFilter'
 import { LogFormModal } from './components/LogFormModal'
-import { Pagination } from './components/Pagination'
+import { Pagination, type PageSize } from './components/Pagination'
 import { WorkLogTable } from './components/WorkLogTable'
 import { Button } from './components/ui/Button'
 import type { GetLogsParams, LogEntry } from './types/log'
 import './App.css'
 
-const PAGE_SIZE = 10
+const DEFAULT_PAGE_SIZE: PageSize = 10
 
 const EMPTY_DATE_FILTER: DateFilterValue = { dateFrom: '', dateTo: '' }
 
@@ -16,6 +16,7 @@ function App() {
   const [rows, setRows] = useState<LogEntry[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState<PageSize>(DEFAULT_PAGE_SIZE)
   const [order, setOrder] = useState<GetLogsParams['order']>('DESC')
   const [dateFilter, setDateFilter] =
     useState<DateFilterValue>(EMPTY_DATE_FILTER)
@@ -28,6 +29,7 @@ function App() {
   const loadLogs = useCallback(
     async (
       currentPage: number,
+      currentPageSize: PageSize,
       sortOrder: GetLogsParams['order'],
       dates: DateFilterValue,
     ) => {
@@ -35,7 +37,7 @@ function App() {
       setError(null)
       try {
         const params: GetLogsParams = {
-          count: PAGE_SIZE,
+          count: currentPageSize,
           page: currentPage,
           order: sortOrder,
         }
@@ -60,16 +62,16 @@ function App() {
   )
 
   useEffect(() => {
-    void loadLogs(page, order, dateFilter)
-  }, [page, order, dateFilter, loadLogs])
+    void loadLogs(page, pageSize, order, dateFilter)
+  }, [page, pageSize, order, dateFilter, loadLogs])
 
   const refreshLogs = () => {
-    void loadLogs(page, order, dateFilter)
+    void loadLogs(page, pageSize, order, dateFilter)
   }
 
   const handleLogSaved = () => {
     if (page === 1) {
-      void loadLogs(1, order, dateFilter)
+      void loadLogs(1, pageSize, order, dateFilter)
     } else {
       setPage(1)
     }
@@ -104,6 +106,11 @@ function App() {
 
   const handleDateClear = () => {
     setDateFilter(EMPTY_DATE_FILTER)
+    setPage(1)
+  }
+
+  const handlePageSizeChange = (nextPageSize: PageSize) => {
+    setPageSize(nextPageSize)
     setPage(1)
   }
 
@@ -145,9 +152,10 @@ function App() {
           />
           <Pagination
             page={page}
-            pageSize={PAGE_SIZE}
+            pageSize={pageSize}
             total={total}
             onPageChange={setPage}
+            onPageSizeChange={handlePageSizeChange}
           />
         </>
       )}
