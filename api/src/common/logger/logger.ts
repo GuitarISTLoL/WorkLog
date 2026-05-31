@@ -21,8 +21,6 @@ const customFormat = winston.format.printf(
 );
 
 const logDirectory = path.resolve(process.cwd(), 'logs');
-console.log('cwd:', process.cwd());
-console.log('logDirectory:', logDirectory);
 
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory, { recursive: true });
